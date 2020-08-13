@@ -41,7 +41,6 @@ app.get('/api/v1/footnotes', (request, response) => {
 
 app.post('/api/v1/papers', (request, response) => {
   const paper = request.body;
-
   for (let requiredParameter of ['title', 'author']) {
     if (!paper[requiredParameter]) {
       return response
@@ -60,13 +59,12 @@ app.post('/api/v1/papers', (request, response) => {
 });
 
 app.post('/api/v1/papers/:id/footnotes', (request, response) => {
-  const footnote = request.body;
-
+  const footnote = {note: request.body.note, paper_id: request.params.id};
   for (let requiredParameter of ['note']) {
     if (!footnote[requiredParameter]) {
       return response
         .status(422)
-        .send({ error: `Expected format: { title: <String>, author: <String> }. You're missing a "${requiredParameter}" property.` });
+        .send({ error: `Expected format: { note: <String>. You're missing a "${requiredParameter}" property.` });
     }
   }
 
